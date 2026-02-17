@@ -276,10 +276,8 @@ class MDNSObservation {
       '$_kPid=$pid',
       '$_kFlutterVersion=$flutterVersion',
       '$_kDartVersion=$dartVersion',
+      if (dtdUri != null) '$_kDtdUri=$dtdUri',
     ];
-    if (dtdUri != null) {
-      txt.add('$_kDtdUri=$dtdUri');
-    }
     return txt;
   }
 
