@@ -920,23 +920,26 @@ class ResidentWebRunner extends ResidentRunner {
           );
 
           // Start mDNS server
-          final discovery = MDNSDeviceDiscovery(
-            device: flutterDevice!.device!,
-            vmService: _vmService.service,
-            debuggingOptions: debuggingOptions,
-            logger: logger,
-            platform: _platform,
-            flutterVersion: globals.flutterVersion,
-            systemClock: _systemClock,
-            botDetector: globals.botDetector,
-          );
-          _mdnsDiscoveries.add(discovery);
-          unawaited(
-            discovery.advertise(
-              appName: flutterProject.manifest.appName,
-              vmServiceUri: _vmService.httpAddress,
-            ),
-          );
+          if (debuggingOptions.enableLocalDiscovery) {
+            final discovery = MDNSDeviceDiscovery(
+              device: flutterDevice!.device!,
+              vmService: _vmService.service,
+              debuggingOptions: debuggingOptions,
+              logger: logger,
+              platform: _platform,
+              flutterVersion: globals.flutterVersion,
+              systemClock: _systemClock,
+              botDetector: globals.botDetector,
+            );
+            _mdnsDiscoveries.add(discovery);
+            unawaited(
+              discovery.advertise(
+                appName: flutterProject.manifest.appName,
+                vmServiceUri: _vmService.httpAddress,
+                dtdUri: debugConnection.dtdUri,
+              ),
+            );
+          }
 
           final Uri websocketUri = Uri.parse(debugConnection.uri);
           flutterDevice!.vmService = _vmService;
