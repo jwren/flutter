@@ -38,8 +38,8 @@ import '../project.dart';
 import '../reporting/reporting.dart';
 import '../resident_runner.dart';
 import '../run_hot.dart';
-import '../vmservice.dart';
 import '../version.dart';
+import '../vmservice.dart';
 import '../web/chrome.dart';
 import '../web/compile.dart';
 import '../web/devfs_config.dart';
@@ -51,16 +51,17 @@ import 'devfs_web.dart';
 import 'web_expression_compiler.dart';
 
 /// Factory for creating an [MDNSDeviceDiscovery] instance.
-typedef MDNSDeviceDiscoveryFactory = MDNSDeviceDiscovery Function({
-  required Device device,
-  required vmservice.VmService vmService,
-  required DebuggingOptions debuggingOptions,
-  required Logger logger,
-  required Platform platform,
-  required FlutterVersion flutterVersion,
-  required SystemClock systemClock,
-  required BotDetector botDetector,
-});
+typedef MDNSDeviceDiscoveryFactory =
+    MDNSDeviceDiscovery Function({
+      required Device device,
+      required vmservice.VmService vmService,
+      required DebuggingOptions debuggingOptions,
+      required Logger logger,
+      required Platform platform,
+      required FlutterVersion flutterVersion,
+      required SystemClock systemClock,
+      required BotDetector botDetector,
+    });
 
 /// Injectable factory to create a [ResidentWebRunner].
 class DwdsWebRunnerFactory extends WebRunnerFactory {

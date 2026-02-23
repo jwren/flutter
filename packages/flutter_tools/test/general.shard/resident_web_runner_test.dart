@@ -34,9 +34,7 @@ import 'package:flutter_tools/src/resident_runner.dart';
 import 'package:flutter_tools/src/version.dart';
 import 'package:flutter_tools/src/vmservice.dart';
 import 'package:flutter_tools/src/web/chrome.dart';
-import 'package:flutter_tools/src/web/compile.dart';
 import 'package:flutter_tools/src/web/devfs_config.dart';
-import 'package:flutter_tools/src/web/web_runner.dart';
 import 'package:flutter_tools/src/web/web_device.dart';
 import 'package:package_config/package_config.dart';
 import 'package:package_config/package_config_types.dart';
@@ -283,22 +281,20 @@ name: my_app
       final ResidentRunner residentWebRunner = setUpResidentRunner(
         flutterDevice,
         logger: logger,
-        debuggingOptions: DebuggingOptions.enabled(
-          BuildInfo.debug,
-          enableLocalDiscovery: true,
-        ),
-        mdnsDeviceDiscoveryFactory: ({
-          required Device device,
-          required vm_service.VmService vmService,
-          required DebuggingOptions debuggingOptions,
-          required Logger logger,
-          required Platform platform,
-          required FlutterVersion flutterVersion,
-          required SystemClock systemClock,
-          required BotDetector botDetector,
-        }) {
-          return fakeMDNSDeviceDiscovery;
-        },
+        debuggingOptions: DebuggingOptions.enabled(BuildInfo.debug, enableLocalDiscovery: true),
+        mdnsDeviceDiscoveryFactory:
+            ({
+              required Device device,
+              required vm_service.VmService vmService,
+              required DebuggingOptions debuggingOptions,
+              required Logger logger,
+              required Platform platform,
+              required FlutterVersion flutterVersion,
+              required SystemClock systemClock,
+              required BotDetector botDetector,
+            }) {
+              return fakeMDNSDeviceDiscovery;
+            },
       );
       fakeVmServiceHost = FakeVmServiceHost(requests: kAttachExpectations.toList());
       setupMocks();
@@ -2423,6 +2419,7 @@ class FakeShaderCompiler implements DevelopmentShaderCompiler {
     throw UnimplementedError();
   }
 }
+
 class FakeMDNSDeviceDiscovery extends Fake implements MDNSDeviceDiscovery {
   Uri? advertisedVmServiceUri;
   String? advertisedDtdUri;
