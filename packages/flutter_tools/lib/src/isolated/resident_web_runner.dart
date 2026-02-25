@@ -957,7 +957,7 @@ class ResidentWebRunner extends ResidentRunner {
                 vmServiceUri: debugConnection.ddsUri != null
                     ? Uri.parse(debugConnection.ddsUri!)
                     : _vmService.httpAddress,
-                dtdUri: debugConnection.dtdUri,
+                dtdUri: debugConnection.dtdUri?.toUri(),
               ),
             );
           }

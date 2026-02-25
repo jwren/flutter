@@ -65,7 +65,7 @@ class MDNSDeviceDiscovery {
   Future<void> advertise({
     required String appName,
     required Uri? vmServiceUri,
-    required String? dtdUri,
+    required Uri? dtdUri,
   }) async {
     try {
       if (_servers.isNotEmpty) {
@@ -107,7 +107,7 @@ class MDNSDeviceDiscovery {
         flutterVersion: frameworkVersion,
         dartVersion: dartVersion,
         pid: pid,
-        dtdUri: dtdUri,
+        dtdUri: dtdUri?.toString(),
       );
 
       final List<String> txt = observation.toTxtRecord();
@@ -191,7 +191,7 @@ class MDNSObservation {
   static const String _kTargetPlatform = 'target_platform';
   static const String _kMode = 'mode';
   static const String _kWsUri = 'ws_uri';
-  static const String _kDtdUri = 'dtdUri';
+  static const String _kDtdUri = 'dtd_uri';
   static const String _kEpoch = 'epoch';
   static const String _kPid = 'pid';
   static const String _kFlutterVersion = 'flutter_version';
@@ -281,10 +281,7 @@ class MDNSObservation {
     return txt;
   }
 
-  /// The DTD URI for the VM Service, derived from [wsUri].
-  ///
-  /// If [wsUri] uses HTTP/HTTPS, this converts it to WS/WSS.
-  /// This getter ensures the URI does not end with a trailing slash.
+  /// Converts the observation to a JSON map.
   Map<String, String> toJson() {
     return <String, String>{
       _kHostname: hostname,

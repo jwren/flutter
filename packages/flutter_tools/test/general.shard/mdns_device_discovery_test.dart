@@ -23,11 +23,11 @@ void main() {
       await discovery.advertise(
         appName: 'app',
         vmServiceUri: Uri.parse('ws://localhost:1234'),
-        dtdUri: 'ws://localhost:4321',
+        dtdUri: Uri.parse('ws://localhost:4321'),
       );
 
       expect(discovery.advertised, isTrue);
-      expect(discovery.advertisedDtdUri, 'ws://localhost:4321');
+      expect(discovery.advertisedDtdUri, Uri.parse('ws://localhost:4321'));
     });
 
     test('does not advertise when running on bot', () async {
@@ -38,7 +38,7 @@ void main() {
       await discovery.advertise(
         appName: 'app',
         vmServiceUri: Uri.parse('ws://localhost:1234'),
-        dtdUri: 'ws://localhost:4321',
+        dtdUri: Uri.parse('ws://localhost:4321'),
       );
 
       expect(discovery.advertised, isFalse);
@@ -55,7 +55,7 @@ void main() {
       await discovery.advertise(
         appName: 'app',
         vmServiceUri: Uri.parse('ws://localhost:1234'),
-        dtdUri: 'ws://localhost:4321',
+        dtdUri: Uri.parse('ws://localhost:4321'),
       );
 
       expect(discovery.advertised, isTrue);
@@ -71,7 +71,7 @@ void main() {
       await discovery.advertise(
         appName: 'app',
         vmServiceUri: Uri.parse('ws://localhost:1234'),
-        dtdUri: 'ws://localhost:4321',
+        dtdUri: Uri.parse('ws://localhost:4321'),
       );
     });
   });
@@ -133,7 +133,7 @@ void main() {
         dtdUri: 'ws://127.0.0.1:4321/auth/ws',
       );
 
-      expect(observation.toJson()['dtdUri'], 'ws://127.0.0.1:4321/auth/ws');
+      expect(observation.toJson()['dtd_uri'], 'ws://127.0.0.1:4321/auth/ws');
     });
 
     test('toJson excludes dtdUri if null', () {
@@ -151,7 +151,7 @@ void main() {
         dartVersion: '2.0.0',
       );
 
-      expect(observation.toJson().containsKey('dtdUri'), isFalse);
+      expect(observation.toJson().containsKey('dtd_uri'), isFalse);
     });
 
     test('parse correctly handles dtdUri', () {
@@ -167,7 +167,7 @@ epoch=0
 pid=1
 flutter_version=1.0.0
 dart_version=2.0.0
-dtdUri=http://127.0.0.1:4321/auth/
+dtd_uri=http://127.0.0.1:4321/auth/
 ''';
       final MDNSObservation? observation = MDNSObservation.parse(txt);
       expect(observation, isNotNull);
@@ -209,14 +209,10 @@ class FakeMDNSDeviceDiscovery extends MDNSDeviceDiscovery {
   });
 
   bool advertised = false;
-  String? advertisedDtdUri;
+  Uri? advertisedDtdUri;
 
   @override
-  Future<void> advertise({
-    required String appName,
-    required Uri? vmServiceUri,
-    String? dtdUri,
-  }) async {
+  Future<void> advertise({required String appName, required Uri? vmServiceUri, Uri? dtdUri}) async {
     // We override advertise to check if the base implementation would have proceeded.
     // However, the base implementation calls `MDNSService.create` and `server.start()` which we can't easily mock
     // without more refactoring or proper dependency injection of the mDNS client.

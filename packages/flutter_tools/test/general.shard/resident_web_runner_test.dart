@@ -2422,13 +2422,13 @@ class FakeShaderCompiler implements DevelopmentShaderCompiler {
 
 class FakeMDNSDeviceDiscovery extends Fake implements MDNSDeviceDiscovery {
   Uri? advertisedVmServiceUri;
-  String? advertisedDtdUri;
+  Uri? advertisedDtdUri;
 
   @override
   Future<void> advertise({
     required String appName,
     required Uri? vmServiceUri,
-    required String? dtdUri,
+    required Uri? dtdUri,
   }) async {
     advertisedVmServiceUri = vmServiceUri;
     advertisedDtdUri = dtdUri;
